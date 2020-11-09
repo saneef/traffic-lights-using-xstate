@@ -13,13 +13,13 @@ const TrafficLights = () => {
           disabled={state.value === "active"}
           onClick={() => send("START")}
         >
-          Start
+          Activate
         </button>
         <button
           disabled={state.value === "inactive"}
           onClick={() => send("STOP")}
         >
-          Stop
+          Deactivate
         </button>
         <button onClick={() => send("ADD_LIGHT")}>Add</button>
       </div>
