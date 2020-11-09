@@ -1,6 +1,5 @@
 import React from "react";
 import { useActor } from "@xstate/react";
-import "./styles.css";
 
 const TrafficLight = ({ lightRef }) => {
   const [state] = useActor(lightRef);

@@ -1,8 +1,8 @@
 import React from "react";
 import "./styles.css";
 
-import TrafficLights from "./TrafficLights";
+import TrafficLightsController from "./TrafficLightsController";
 
 export default function App() {
-  return <TrafficLights />;
+  return <TrafficLightsController />;
 }

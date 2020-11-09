@@ -1,11 +1,10 @@
 import React from "react";
 import { useMachine } from "@xstate/react";
-import "./TrafficLights.css";
-import TrafficLight from "../TrafficLight";
-import { trafficLightsControlMachine } from "../trafficLightsControlMachine";
+import { trafficLightsControllerMachine } from "./trafficLightsControllerMachine";
+import TrafficLight from "./TrafficLight.jsx";
 
 const TrafficLights = () => {
-  const [state, send] = useMachine(trafficLightsControlMachine);
+  const [state, send] = useMachine(trafficLightsControllerMachine);
 
   return (
     <div className="dashboard">

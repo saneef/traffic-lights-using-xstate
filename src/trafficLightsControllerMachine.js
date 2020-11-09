@@ -1,39 +1,39 @@
 import { createMachine, spawn, assign } from "xstate";
 import { createTrafficLightMachine } from "./trafficLightMachine";
 
-export const trafficLightsControlMachine = createMachine(
+export const trafficLightsControllerMachine = createMachine(
   {
     id: "traffic-lights",
     initial: "bootup",
     context: {
-      lights: []
+      lights: [],
     },
     on: {
       ADD_LIGHT: "bootup",
       END_OF_CYCLE: {
-        actions: "setNextLightToProceed"
-      }
+        actions: "setNextLightToProceed",
+      },
     },
     states: {
       bootup: {
         always: {
           actions: ["addLight"],
-          target: "active"
-        }
+          target: "active",
+        },
       },
       active: {
         entry: ["powerUpLights", "setFirstLightToProceed"],
         on: {
-          STOP: { target: "inactive" }
-        }
+          STOP: { target: "inactive" },
+        },
       },
       inactive: {
         entry: ["powerDownLights"],
         on: {
-          START: { target: "active" }
-        }
-      }
-    }
+          START: { target: "active" },
+        },
+      },
+    },
   },
   {
     actions: {
@@ -43,7 +43,7 @@ export const trafficLightsControlMachine = createMachine(
           const light = spawn(createTrafficLightMachine(id));
 
           return context.lights.concat({ id, ref: light });
-        }
+        },
       }),
       setFirstLightToProceed: (context) => {
         context.lights.forEach((light, i) =>
@@ -65,7 +65,7 @@ export const trafficLightsControlMachine = createMachine(
       powerDownLights: (context) =>
         context.lights.forEach((l) => l.ref.send("POWER_DOWN")),
       powerUpLights: (context) =>
-        context.lights.forEach((l) => l.ref.send("POWER_UP"))
-    }
+        context.lights.forEach((l) => l.ref.send("POWER_UP")),
+    },
   }
 );
