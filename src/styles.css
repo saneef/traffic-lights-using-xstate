@@ -42,6 +42,10 @@ body {
   margin-top: 0.5rem;
 }
 
+.traffic-light > li {
+  text-align: center;
+}
+
 .traffic-light__bulb {
   display: block;
   padding-top: 100%;
@@ -63,10 +67,6 @@ body {
 
 .traffic-light__bulb[data-state="off"] {
   background-color: darkgray;
-}
-
-.traffic-light__action {
-  text-align: center;
 }
 
 /* Utilities */

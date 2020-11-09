@@ -3,8 +3,8 @@ const { createMachine, assign, sendParent } = require("xstate");
 export const createTrafficLightMachine = (
   lightId,
   durations = {
-    proceed: 2,
-    caution: 1,
+    proceed: 5,
+    caution: 2,
   }
 ) =>
   createMachine(
@@ -33,16 +33,21 @@ export const createTrafficLightMachine = (
           initial: "stop",
           on: {
             POWER_DOWN: "inactive",
-            TICK: { actions: "incCounter" },
+            TICK: { actions: "decCounter" },
           },
           states: {
             stop: {},
             proceed: {
               entry: ["resetCounter"],
-              on: { TICK: { target: "caution", cond: "elapsedProceed" } },
+              on: {
+                TICK: {
+                  target: "caution",
+                  cond: "elapsedProceed",
+                  actions: "decCounter",
+                },
+              },
             },
             caution: {
-              entry: ["resetCounter"],
               on: {
                 TICK: {
                   target: "stop",
@@ -76,10 +81,11 @@ export const createTrafficLightMachine = (
     {
       actions: {
         resetCounter: assign({
-          counter: 0,
+          counter: (context) =>
+            context.durations.proceed + context.durations.caution,
         }),
-        incCounter: assign({
-          counter: (context) => context.counter + 1,
+        decCounter: assign({
+          counter: (context) => context.counter - 1,
         }),
         notifyEndOfCycle: sendParent((context) => {
           return {
@@ -96,9 +102,8 @@ export const createTrafficLightMachine = (
       },
       guards: {
         elapsedProceed: (context) =>
-          context.counter > context.durations.proceed,
-        elapsedCaution: (context) =>
-          context.counter > context.durations.caution,
+          context.counter <= context.durations.caution,
+        elapsedCaution: (context) => context.counter <= 0,
       },
     }
   );

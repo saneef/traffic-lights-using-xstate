@@ -28,6 +28,11 @@ const TrafficLight = ({ lightRef }) => {
       >
         <span className="sr-only">Green</span>{" "}
       </li>
+      <li>
+        {state.value.active === "proceed" || state.value.active === "caution"
+          ? state.context.counter
+          : "—"}
+      </li>
       <li className="traffic-light__action">
         <button onClick={() => send("REMOVE")}>Remove</button>
       </li>
