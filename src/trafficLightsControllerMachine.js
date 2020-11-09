@@ -9,20 +9,24 @@ export const trafficLightsControllerMachine = createMachine(
       lights: [],
     },
     on: {
-      ADD_LIGHT: "bootup",
+      ADD_LIGHT: { target: "active", actions: "addLight" },
       END_OF_CYCLE: {
         actions: "setNextLightToProceed",
+      },
+      END_OF_LIFE: {
+        target: "active",
+        actions: "removeLight",
       },
     },
     states: {
       bootup: {
         always: {
-          actions: ["addLight"],
+          actions: ["initialiseLights"],
           target: "active",
         },
       },
       active: {
-        entry: ["powerUpLights", "setFirstLightToProceed"],
+        entry: ["setFirstLightToProceed"],
         on: {
           STOP: { target: "inactive" },
         },
@@ -45,6 +49,13 @@ export const trafficLightsControllerMachine = createMachine(
           return context.lights.concat({ id, ref: light });
         },
       }),
+      initialiseLights: assign({
+        lights: (context, event) =>
+          Array.from({ length: 3 }).map((l, i) => ({
+            id: i,
+            ref: spawn(createTrafficLightMachine(i)),
+          })),
+      }),
       setFirstLightToProceed: (context) => {
         context.lights.forEach((light, i) =>
           light.ref.send(i === 0 ? "PROCEED" : "STOP")
@@ -61,11 +72,20 @@ export const trafficLightsControllerMachine = createMachine(
           lights[index + 1].ref.send("PROCEED");
         }
       },
-      tickLights: (context) => context.lights.forEach((l) => l.send("TICK")),
+      removeLight: assign({
+        lights: (context, event) => {
+          const { lightId } = event;
+          const { lights } = context;
+
+          const light = lights.find((l) => l.id === lightId);
+          if (light) {
+            light.ref.stop();
+          }
+          return lights.filter((l) => l.id !== lightId);
+        },
+      }),
       powerDownLights: (context) =>
         context.lights.forEach((l) => l.ref.send("POWER_DOWN")),
-      powerUpLights: (context) =>
-        context.lights.forEach((l) => l.ref.send("POWER_UP")),
     },
   }
 );

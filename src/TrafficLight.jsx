@@ -2,7 +2,7 @@ import React from "react";
 import { useActor } from "@xstate/react";
 
 const TrafficLight = ({ lightRef }) => {
-  const [state] = useActor(lightRef);
+  const [state, send] = useActor(lightRef);
 
   return (
     <ul className="traffic-light">
@@ -27,6 +27,9 @@ const TrafficLight = ({ lightRef }) => {
         className="traffic-light__bulb traffic-light__bulb--green"
       >
         <span className="sr-only">Green</span>{" "}
+      </li>
+      <li className="traffic-light__action">
+        <button onClick={() => send("REMOVE")}>Remove</button>
       </li>
     </ul>
   );

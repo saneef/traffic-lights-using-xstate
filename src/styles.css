@@ -24,7 +24,7 @@ body {
 .lights {
   grid-row: 2;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 5rem);
+  grid-template-columns: repeat(auto-fit, 7rem);
   grid-gap: 1rem;
 }
 
@@ -38,15 +38,15 @@ body {
   list-style: none;
 }
 
+.traffic-light > * + * {
+  margin-top: 0.5rem;
+}
+
 .traffic-light__bulb {
   display: block;
   padding-top: 100%;
   border-radius: 100%;
   background-color: lightgray;
-}
-
-.traffic-light__bulb + .traffic-light__bulb {
-  margin-top: 0.5rem;
 }
 
 .traffic-light__bulb--red {
@@ -63,6 +63,10 @@ body {
 
 .traffic-light__bulb[data-state="off"] {
   background-color: darkgray;
+}
+
+.traffic-light__action {
+  text-align: center;
 }
 
 /* Utilities */
