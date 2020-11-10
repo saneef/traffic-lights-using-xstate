@@ -2,9 +2,16 @@ import React from "react";
 import { useMachine } from "@xstate/react";
 import { trafficLightsControllerMachine } from "./trafficLightsControllerMachine";
 import TrafficLight from "./TrafficLight.jsx";
+// import { inspect } from "@xstate/inspect";
+
+// inspect({
+//   iframe: false,
+// });
 
 const TrafficLights = () => {
-  const [state, send] = useMachine(trafficLightsControllerMachine);
+  const [state, send] = useMachine(trafficLightsControllerMachine, {
+    devTools: true,
+  });
 
   return (
     <div className="dashboard">
