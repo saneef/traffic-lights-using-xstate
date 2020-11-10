@@ -1,5 +1,6 @@
 import { createMachine, spawn, assign } from "xstate";
 import { createTrafficLightMachine } from "./trafficLightMachine";
+import { randomInteger } from "./lib/math";
 
 export const trafficLightsControllerMachine = createMachine(
   {
@@ -48,7 +49,10 @@ export const trafficLightsControllerMachine = createMachine(
         lights: (context, event) => {
           const id = `light-${context.lights.length}`;
           const light = spawn(
-            createTrafficLightMachine(`light-${id}`, "active"),
+            createTrafficLightMachine(id, "active", {
+              proceed: randomInteger(5, 11),
+              caution: 2,
+            }),
             `light-${id}`
           );
 
@@ -65,7 +69,10 @@ export const trafficLightsControllerMachine = createMachine(
         lights: (context, event) => {
           const id = `light-${context.lights.length}`;
           const light = spawn(
-            createTrafficLightMachine(`light-${id}`),
+            createTrafficLightMachine(`light-${id}`, "inactive", {
+              proceed: randomInteger(5, 10),
+              caution: 2,
+            }),
             `light-${id}`
           );
 
@@ -76,7 +83,13 @@ export const trafficLightsControllerMachine = createMachine(
         lights: (context, event) =>
           Array.from({ length: 3 }).map((l, i) => {
             const id = `light-${i}`;
-            return spawn(createTrafficLightMachine(id), id);
+            return spawn(
+              createTrafficLightMachine(id, "active", {
+                proceed: randomInteger(5, 11),
+                caution: 2,
+              }),
+              id
+            );
           }),
       }),
       setFirstLightToProceed: (context) => {
