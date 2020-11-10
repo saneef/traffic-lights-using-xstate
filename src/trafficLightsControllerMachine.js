@@ -53,7 +53,7 @@ export const trafficLightsControllerMachine = createMachine(
               proceed: randomInteger(5, 11),
               caution: 2,
             }),
-            `light-${id}`
+            id
           );
 
           // If this is the only light,
@@ -69,11 +69,11 @@ export const trafficLightsControllerMachine = createMachine(
         lights: (context, event) => {
           const id = `light-${context.lights.length}`;
           const light = spawn(
-            createTrafficLightMachine(`light-${id}`, "inactive", {
+            createTrafficLightMachine(id, "inactive", {
               proceed: randomInteger(5, 10),
               caution: 2,
             }),
-            `light-${id}`
+            id
           );
 
           return context.lights.concat(light);
