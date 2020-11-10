@@ -9,10 +9,6 @@ export const trafficLightsControllerMachine = createMachine(
       lights: [],
     },
     on: {
-      ADD_LIGHT: [
-        { target: "active", actions: "addActiveLight", cond: "isActive" },
-        { target: "inactive", actions: "addInactiveLight" },
-      ],
       END_OF_CYCLE: {
         actions: "setNextLightToProceed",
       },
@@ -32,12 +28,16 @@ export const trafficLightsControllerMachine = createMachine(
         entry: ["setFirstLightToProceed"],
         on: {
           STOP: { target: "inactive" },
+          ADD_LIGHT: {
+            actions: "addActiveLight",
+          },
         },
       },
       inactive: {
         entry: ["powerDownLights"],
         on: {
           START: { target: "active" },
+          ADD_LIGHT: { actions: "addInactiveLight" },
         },
       },
     },
@@ -103,9 +103,6 @@ export const trafficLightsControllerMachine = createMachine(
       }),
       powerDownLights: (context) =>
         context.lights.forEach((l) => l.send("POWER_DOWN")),
-    },
-    guards: {
-      isActive: (context, event, condMeta) => condMeta.state.value === "active",
     },
   }
 );

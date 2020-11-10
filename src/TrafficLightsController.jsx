@@ -22,6 +22,12 @@ const TrafficLights = () => {
           Deactivate
         </button>
         <button onClick={() => send("ADD_LIGHT")}>Add</button>
+        <span>
+          State:{" "}
+          <span className="font-mono font-xs break-words">
+            {JSON.stringify(state.value)}
+          </span>
+        </span>
       </div>
       <div className="lights">
         {state.context.lights.map((light, i) => {

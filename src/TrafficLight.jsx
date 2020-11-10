@@ -36,6 +36,15 @@ const TrafficLight = ({ lightRef }) => {
       <li className="traffic-light__action">
         <button onClick={() => send("REMOVE")}>Remove</button>
       </li>
+      <li>
+        <code className="traffic-light__meta font-mono font-xs break-words">
+          ID: {state.context.lightId}
+          <br></br>
+          <br></br>
+          State: <br></br>
+          {JSON.stringify(state.value)}
+        </code>
+      </li>
     </ul>
   );
 };

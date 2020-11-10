@@ -21,10 +21,14 @@ body {
   grid-gap: 1rem;
 }
 
+.controls > * + * {
+  margin-left: 1rem;
+}
+
 .lights {
   grid-row: 2;
   display: grid;
-  grid-template-columns: repeat(auto-fit, 7rem);
+  grid-template-columns: repeat(auto-fit, 10rem);
   grid-gap: 1rem;
 }
 
@@ -69,7 +73,26 @@ body {
   background-color: darkgray;
 }
 
+.traffic-light__meta {
+  display: block;
+  padding: 0.25rem;
+  background-color: white;
+  border-radius: 0.25rem;
+  text-align: left;
+}
+
 /* Utilities */
+.font-xs {
+  font-size: 0.75rem;
+}
+
+.font-mono {
+  font-family: Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace !important;
+}
+
+.break-words {
+  overflow-wrap: break-word;
+}
 
 .sr-only {
   position: absolute;
