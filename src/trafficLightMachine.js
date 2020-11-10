@@ -2,6 +2,7 @@ const { createMachine, assign, sendParent } = require("xstate");
 
 export const createTrafficLightMachine = (
   lightId,
+  initial = "inactive",
   durations = {
     proceed: 5,
     caution: 2,
@@ -10,7 +11,7 @@ export const createTrafficLightMachine = (
   createMachine(
     {
       id: "traffic-light",
-      initial: "inactive",
+      initial,
       context: {
         lightId,
         durations,

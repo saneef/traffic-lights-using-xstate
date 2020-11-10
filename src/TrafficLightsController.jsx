@@ -25,7 +25,7 @@ const TrafficLights = () => {
       </div>
       <div className="lights">
         {state.context.lights.map((light, i) => {
-          return <TrafficLight lightRef={light.ref} key={`light-${i}`} />;
+          return <TrafficLight lightRef={light} key={light.id} />;
         })}
       </div>
     </div>
