@@ -8,31 +8,38 @@ const TrafficLights = () => {
 
   return (
     <div className="dashboard">
-      <div className="controls">
-        <button
-          disabled={state.value === "active"}
-          onClick={() => send("START")}
-        >
-          Activate
-        </button>
-        <button
-          disabled={state.value === "inactive"}
-          onClick={() => send("STOP")}
-        >
-          Deactivate
-        </button>
-        <button onClick={() => send("ADD_LIGHT")}>Add</button>
-        <span>
-          State:{" "}
-          <span className="font-mono font-xs break-words">
-            {JSON.stringify(state.value)}
+      <div className="section section--compact">
+        <h2 className="font-caps text-light">Controller</h2>
+        <div className="controls">
+          <button
+            disabled={state.value === "active"}
+            onClick={() => send("START")}
+          >
+            Activate
+          </button>
+          <button
+            disabled={state.value === "inactive"}
+            onClick={() => send("STOP")}
+          >
+            Deactivate
+          </button>
+          <button onClick={() => send("ADD_LIGHT")}>Add light</button>
+          <span>
+            <span className="font-caps text-light">State</span>{" "}
+            <span className="font-mono font-xs break-words">
+              {JSON.stringify(state.value)}
+            </span>
           </span>
-        </span>
+        </div>
       </div>
-      <div className="lights">
-        {state.context.lights.map((light, i) => {
-          return <TrafficLight lightRef={light} key={light.id} />;
-        })}
+
+      <div className="section">
+        <h2 className="font-caps text-light">Traffic Lights</h2>
+        <div className="lights">
+          {state.context.lights.map((light, i) => {
+            return <TrafficLight lightRef={light} key={light.id} />;
+          })}
+        </div>
       </div>
     </div>
   );

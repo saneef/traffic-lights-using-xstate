@@ -4,7 +4,7 @@ export const createTrafficLightMachine = (
   lightId,
   initial = "inactive",
   durations = {
-    proceed: 5,
+    proceed: 3,
     caution: 2,
   }
 ) =>

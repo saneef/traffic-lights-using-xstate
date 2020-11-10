@@ -52,6 +52,12 @@ export const trafficLightsControllerMachine = createMachine(
             `light-${id}`
           );
 
+          // If this is the only light,
+          // trigger "PROCEED"
+          if (!context.lights.length) {
+            light.send("PROCEED");
+          }
+
           return context.lights.concat(light);
         },
       }),
