@@ -1,6 +1,6 @@
 const { createMachine, assign, sendParent } = require("xstate");
 
-export const createTrafficLightMachine = (
+const createTrafficLightMachine = (
   lightId,
   initial = "inactive",
   durations = {
@@ -108,3 +108,5 @@ export const createTrafficLightMachine = (
       },
     }
   );
+
+export default createTrafficLightMachine;

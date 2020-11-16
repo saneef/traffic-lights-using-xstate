@@ -1,8 +1,8 @@
 import { createMachine, spawn, assign } from "xstate";
-import { createTrafficLightMachine } from "./trafficLightMachine";
-import { randomInteger } from "./lib/math";
+import createTrafficLightMachine from "./createTrafficLightMachine";
+import { randomInteger } from "../lib/math";
 
-export const trafficLightsControllerMachine = createMachine(
+const trafficLightsController = createMachine(
   {
     id: "traffic-lights",
     initial: "bootup",
@@ -125,3 +125,5 @@ export const trafficLightsControllerMachine = createMachine(
     },
   }
 );
+
+export default trafficLightsController;
